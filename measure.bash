@@ -9,7 +9,6 @@ fi
 # Start the server in the background
 $1 &
 SERVER_PID=$!
-SERVER_PGID=$(ps -o pgid= $SERVER_PID | grep -o '[0-9]*')
 
 sleep 1
 
@@ -21,13 +20,21 @@ else
 fi
 
 # Run the wrk benchmarking tool
-wrk -t10 -c400 -d10s http://127.0.0.1:8080
+wrk -t1 -c100 -d10s http://127.0.0.1:8080
+wrk -t2 -c100 -d10s http://127.0.0.1:8080
+wrk -t2 -c200 -d10s http://127.0.0.1:8080
+wrk -t2 -c300 -d10s http://127.0.0.1:8080
+wrk -t2 -c400 -d10s http://127.0.0.1:8080
+wrk -t2 -c500 -d10s http://127.0.0.1:8080
+wrk -t2 -c600 -d10s http://127.0.0.1:8080
 
 # Stop the server
 if ps -p $SERVER_PID > /dev/null; then
   echo "Stopping the server and its process group..."
-  kill -SIGKILL -- -$SERVER_PGID
   kill -SIGKILL $SERVER_PID
+  while kill -0 $SERVER_PID 2>/dev/null; do
+    sleep 1
+  done
   echo "Server stopped."
 else
   echo "Server is no longer running."

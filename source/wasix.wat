@@ -267,8 +267,6 @@
 	(memory (;0;) 1)
 	(export "memory" (memory 0))
 	(export "_start" (func 10))
-	(export "main"   (func 10))
-	(start 10)
 
 	(data (i32.const 0) "\08\00\00\00\10\00\00\00")
 	(data (i32.const 8) "Panic ??? @ ???\0a")
