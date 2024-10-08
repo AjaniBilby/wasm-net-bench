@@ -26,7 +26,8 @@ wrk -t10 -c400 -d10s http://127.0.0.1:8080
 # Stop the server
 if ps -p $SERVER_PID > /dev/null; then
   echo "Stopping the server and its process group..."
-  kill -TERM -- -$SERVER_PGID
+  kill -SIGKILL -- -$SERVER_PGID
+  kill -SIGKILL $SERVER_PID
   echo "Server stopped."
 else
   echo "Server is no longer running."
